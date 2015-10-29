@@ -172,6 +172,29 @@ void MyGLWidget::loadModel(){
 	//carrega model
 	m.load("../models/HomerProves.obj");
 	
+	//VAO
+	// Creació del Vertex Array Object per pintar
+		glGenVertexArrays(1, &VAO_Homer);
+		glBindVertexArray(VAO_Homer);
+
+		glGenBuffers(1, &VBO_HomerPos);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO_HomerPos);
+		glBufferData(GL_ARRAY_BUFFER,sizeof(Glfloat)*m.faces().size()*3*3,
+					m.VBO_vertices(),GL_STATIS_DRAW);
+					
+	// Activem l'atribut vertexLoc
+		glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(vertexLoc);
+
+		glGenBuffers(1, &VBO_HomerCol);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO_HomerCol);
+				glBufferData(GL_ARRAY_BUFFER,sizeof(Glfloat)*m.faces().size()*3*3,
+					m.VBO_vertices(),GL_STATIS_DRAW);
+
+    // Activem l'atribut colorLoc
+		glVertexAttribPointer(colorLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(colorLoc);
+	
 	//passa dades buffer a GPU
 	/**glBufferData(GL_ARRAY_BUFFER,sizeof(Glfloat)*m.faces().size()*3*3,
 					m.VBO_vertices(),GL_STATIS_DRAW);**/
