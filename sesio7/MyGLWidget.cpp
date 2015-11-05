@@ -8,6 +8,7 @@ MyGLWidget::MyGLWidget (QGLFormat &f, QWidget* parent) : QGLWidget(f, parent)
   setFocusPolicy(Qt::ClickFocus);  // per rebre events de teclat
   xClick = yClick = 0;
   angleY = 0.0;
+  angleX = 0.0;
   DoingInteractive = NONE;
   radiEsc = sqrt(3);
 }
@@ -148,7 +149,7 @@ void MyGLWidget::createBuffers ()
   // Definim el material del terra
   glm::vec3 amb(0.2,0,0.2);
   glm::vec3 diff(0.8,0,0.8);
-  glm::vec3 spec(0,0,0);
+  glm::vec3 spec(0.7,0.7,0.7);
   float shin = 100;
 
   // Fem que aquest material afecti a tots els vèrtexs per igual
@@ -264,6 +265,7 @@ void MyGLWidget::carregaShaders ()
 void MyGLWidget::modelTransformPatricio ()
 {
   glm::mat4 TG;  // Matriu de transformació
+  TG = glm::translate(TG,trasllada);
   TG = glm::scale(TG, glm::vec3(escala, escala, escala));
   TG = glm::translate(TG, -centrePatr);
   
@@ -290,7 +292,8 @@ void MyGLWidget::viewTransform ()
 {
   glm::mat4 View;  // Matriu de posició i orientació
   View = glm::translate(glm::mat4(1.f), glm::vec3(0, 0, -2*radiEsc));
-  View = glm::rotate(View, -angleY, glm::vec3(0, 1, 0));
+  View = glm::rotate(View, -angleY, glm::vec3(0, 1, 0)); //rotació horitzontal
+  View = glm::rotate(View, -angleX, glm::vec3(1, 0, 0)); //rotació vertical
 
   glUniformMatrix4fv (viewLoc, 1, GL_FALSE, &View[0][0]);
 }
@@ -318,6 +321,7 @@ void MyGLWidget::calculaCapsaModel ()
       maxz = patr.vertices()[i+2];
   }
   escala = 2.0/(maxy-miny);
+  trasllada[0] = trasllada[1] = trasllada[2] = 0;
   centrePatr[0] = (minx+maxx)/2.0; centrePatr[1] = (miny+maxy)/2.0; centrePatr[2] = (minz+maxz)/2.0;
 }
 
@@ -327,7 +331,33 @@ void MyGLWidget::keyPressEvent (QKeyEvent *e)
   {
     case Qt::Key_Escape:
         exit(0);
-
+    case Qt::Key_Plus:
+        escala += 0.01;
+        break;
+    case Qt::Key_Minus:
+        escala -= 0.01;
+        break;
+    case Qt::Key_Right:
+        trasllada[0] += 0.02;
+        break;
+    case Qt::Key_Left:
+          trasllada[0] -= 0.02;
+          break;
+    case Qt::Key_Up:
+          trasllada[1] += 0.02;
+          break;
+    case Qt::Key_Down:
+          trasllada[1] -= 0.02;
+          break;
+    case Qt::Key_8:
+          trasllada[2] += 0.02;
+          break;
+    case Qt::Key_2:
+          trasllada[2] -= 0.02;
+          break;
+    case Qt::Key_R:
+          trasllada[0] = trasllada [1] = trasllada [2] = 0;
+          break;
     default: e->ignore(); break;
   }
   updateGL();
@@ -356,7 +386,8 @@ void MyGLWidget::mouseMoveEvent(QMouseEvent *e)
   if (DoingInteractive == ROTATE)
   {
     // Fem la rotació
-    angleY += (e->x() - xClick) * M_PI / 180.0;
+    angleY += (e->x() - xClick) * M_PI / 180.0; //rotació horitzontal
+    angleX += (e->y() - yClick) * M_PI / 180.0; //rotació vertical
     viewTransform ();
   }
 
