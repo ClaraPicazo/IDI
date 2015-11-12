@@ -11,6 +11,8 @@ MyGLWidget::MyGLWidget (QGLFormat &f, QWidget* parent) : QGLWidget(f, parent)
   angleX = 0.0;
   DoingInteractive = NONE;
   radiEsc = sqrt(3);
+  FOV = M_PI/3.0;
+  ra = 1.0;
 }
 
 void MyGLWidget::initializeGL ()
@@ -54,7 +56,18 @@ void MyGLWidget::paintGL ()
 
 void MyGLWidget::resizeGL (int w, int h)
 {
-  glViewport (0, 0, w, h);
+    ra = (double)w/(double)h;
+
+    if(w>h) {
+        FOV = 2*(M_PI/6.0);
+    }
+    else if(h>w){
+        FOV=2*atan(tan(M_PI/6.0)/ra);
+        if(FOV <= 0) FOV = 0.001745329252;
+        if(FOV > M_PI) FOV = M_PI;
+    }
+    projectTransform();
+    glViewport (0, 0, w, h);
 }
 
 void MyGLWidget::createBuffers ()
@@ -260,7 +273,18 @@ void MyGLWidget::carregaShaders ()
   transLoc = glGetUniformLocation (program->programId(), "TG");
   projLoc = glGetUniformLocation (program->programId(), "proj");
   viewLoc = glGetUniformLocation (program->programId(), "view");
+
+  //idicadors per la llum
+  posFocusLoc = glGetUniformLocation (program->programId(), "posFocus");
+  colFocusLoc = glGetUniformLocation (program->programId(),"colFocus");
 }
+
+void MyGLWidget::carregaLlum(){
+    glUniform3fv(posFocusLoc,1,&posFocus[0]);
+    glm::vec3 colFocus(0.8,0.8,0.8);
+    glUniform3fv(colFocusLoc,1,&colFocus[0]);
+}
+
 
 void MyGLWidget::modelTransformPatricio ()
 {
@@ -283,9 +307,12 @@ void MyGLWidget::projectTransform ()
 {
   //sempre mantenim la aspect ratio de la pantalla per evitar deformacions
   glm::mat4 Proj;  // Matriu de projecció
-  Proj = glm::perspective(M_PI/3.0, 1.0, radiEsc, 3.*radiEsc);
+  Proj = glm::perspective(FOV, ra, 0.01, 3.*radiEsc);
 
   glUniformMatrix4fv (projLoc, 1, GL_FALSE, &Proj[0][0]);
+
+
+ // Proj = glm::perspective(FOV, ra, 0.01, 3.*radiEsc);
 }
 
 void MyGLWidget::viewTransform ()
