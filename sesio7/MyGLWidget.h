@@ -56,7 +56,7 @@ class MyGLWidget : public QGLWidget
     glm::vec3 centrePatr, trasllada;
     float escala;
     double radiEsc,ra,FOV;
-    glm::vec3 posFocus;
+    glm::vec3 posFocus, colFocus;
 
     typedef  enum {NONE, ROTATE} InteractiveAction;
     InteractiveAction DoingInteractive;

@@ -52,6 +52,7 @@ void MyGLWidget::paintGL ()
   glDrawArrays(GL_TRIANGLES, 0, patr.faces().size()*3);
   
   glBindVertexArray(0);
+
 }
 
 void MyGLWidget::resizeGL (int w, int h)
@@ -281,7 +282,6 @@ void MyGLWidget::carregaShaders ()
 
 void MyGLWidget::carregaLlum(){
     glUniform3fv(posFocusLoc,1,&posFocus[0]);
-    glm::vec3 colFocus(0.8,0.8,0.8);
     glUniform3fv(colFocusLoc,1,&colFocus[0]);
 }
 
@@ -311,8 +311,6 @@ void MyGLWidget::projectTransform ()
 
   glUniformMatrix4fv (projLoc, 1, GL_FALSE, &Proj[0][0]);
 
-
- // Proj = glm::perspective(FOV, ra, 0.01, 3.*radiEsc);
 }
 
 void MyGLWidget::viewTransform ()
@@ -384,6 +382,22 @@ void MyGLWidget::keyPressEvent (QKeyEvent *e)
           break;
     case Qt::Key_R:
           trasllada[0] = trasllada [1] = trasllada [2] = 0;
+          break;
+    case Qt::Key_O:
+          posFocus += 0.1;
+          carregaLlum();
+          break;
+    case Qt::Key_P:
+          posFocus -= 0.1;
+          carregaLlum();
+          break;
+    case Qt::Key_U:
+          colFocus -= 0.02;
+          carregaLlum();
+          break;
+    case Qt::Key_I:
+          colFocus += 0.02;
+          carregaLlum();
           break;
     default: e->ignore(); break;
   }
