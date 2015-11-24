@@ -1,38 +1,35 @@
-# version 330 core
+#version 330 core
 
-in vec3 vertex;
-in vec3 normal;
+in vec4 vertSCO;
+in vec4 posFocusSCO;
+in vec3 NormSCO;
 
 in vec3 matamb;
 in vec3 matdiff;
 in vec3 matspec;
 in float matshin;
 
-uniform mat4 proj;
-uniform mat4 view;
-uniform mat4 TG;
+out vec4 FragColor;
+
+uniform vec3 colFocus;
 
 // Valors per als components que necessitem dels focus de llum
-vec3 colFocus = vec3(0.0, 0.8, 0.8);
 vec3 llumAmbient = vec3(0.2, 0.2, 0.2);
-uniform vec3 posFocus;  // en SCA
 
-out vec3 fcolor;
-
-vec3 Lambert (vec3 NormSCO, vec3 L) 
+vec3 Lambert (vec3 NormSCO, vec3 L)
 {
     // S'assumeix que els vectors que es reben com a paràmetres estan normalitzats
 
     // Inicialitzem color a component ambient
     vec3 colRes = llumAmbient * matamb;
 
-    // Afegim component difusa, si n'hi ha
+    // Afegim component difusa, si n'hi hax
     if (dot (L, NormSCO) > 0)
       colRes = colRes + colFocus * matdiff * dot (L, NormSCO);
     return (colRes);
 }
 
-vec3 Phong (vec3 NormSCO, vec3 L, vec4 vertSCO) 
+vec3 Phong (vec3 NormSCO, vec3 L, vec4 vertSCO)
 {
     // Els vectors estan normalitzats
 
@@ -48,19 +45,14 @@ vec3 Phong (vec3 NormSCO, vec3 L, vec4 vertSCO)
 
     if ((dot(R, V) < 0) || (matshin == 0))
       return colRes;  // no hi ha component especular
-    
+
     // Afegim la component especular
     float shine = pow(max(0.0, dot(R, V)), matshin);
-    return (colRes + matspec * colFocus * shine); 
+    return (colRes + matspec * colFocus * shine);
 }
 
 void main()
-{	
-        gl_Position = proj * view * TG * vec4 (vertex, 1.0);
-        vec4 L = view*TG*vec4(vertex,1.0);
-        vec4 posF = vec4(posFocus,1.0);
-        L = posF - L;
-        mat3 NormalMatrix = inverse (transpose (mat3 (view * TG)));
-        vec3 N = NormalMatrix*normal;
-        fcolor = Phong(normalize(N),normalize(L.xyz),vec4(vertex,1.0)) ;
+{
+    vec3 fcolor = Phong(normalize(NormSCO), normalize(posFocusSCO.xyz-vertSCO.xyz), vertSCO);
+    FragColor = vec4(fcolor,1);
 }

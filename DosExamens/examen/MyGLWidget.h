@@ -41,37 +41,23 @@ class MyGLWidget : public QGLWidget
     void viewTransform ();
     void modelTransformTerra ();
     void modelTransformPatricio ();
-    void modelTransformPatricio2 ();
-    void modelTransformMiniPat ();
-    void modelTransformVaca ();
-    void calculaCapsaPatricio ();
-    void calculaCapsaVaca ();
-    void carregaLlum();
-    //struct del model
-    struct model{
-        float minx, miny, minz, maxx, maxy, maxz;
-        glm::vec3 centreCapsa() { return glm::vec3((minx+maxx)/2.0,(miny+maxy)/2.0,(minz+maxz)/2.0); }
-        glm::vec3 centreBase(){ return glm::vec3((minx+maxx)/2.0,miny,(minz+maxz)/2.0); }
-        float radi(){return (double)glm::distance(glm::vec3(minx,miny,minz),glm::vec3(maxx,maxy,maxz));}
-        float escala;
-        float height;
-    };
+    void calculaCapsaModel ();
 
     // VAO i VBO names
     GLuint VAO_Patr, VBO_PatrPos, VBO_PatrNorm, VBO_PatrMatamb, VBO_PatrMatdiff, VBO_PatrMatspec, VBO_PatrMatshin;
-    GLuint VAO_cow, VBO_cowPos, VBO_cowNorm, VBO_cowMatamb, VBO_cowMatdiff, VBO_cowMatspec, VBO_cowMatshin;
     GLuint VAO_Terra, VBO_TerraPos, VBO_TerraNorm, VBO_TerraMatamb, VBO_TerraMatdiff, VBO_TerraMatspec, VBO_TerraMatshin;
     QGLShaderProgram *program;
 
-    GLuint transLoc, projLoc, viewLoc,posFocusLoc;
+    GLuint transLoc, projLoc, viewLoc;
     GLuint vertexLoc, normalLoc, matambLoc, matdiffLoc, matspecLoc, matshinLoc;
-    Model patr,cow;
+    Model patr;
     // paràmetres calculats a partir de la capsa contenidora del model
-    glm::vec3 posFocus;
-    double radiEsc,ra,FOV,FOVinicial,trasllada,distancia,Znear,Zfar;
-    model patricio,minipat,vaca;
+    glm::vec3 centrePatr;
+    float escala;
+    double radiEsc;
+
     typedef  enum {NONE, ROTATE} InteractiveAction;
     InteractiveAction DoingInteractive;
     int xClick, yClick;
-    float angleY,anglerot;
+    float angleY;
 };

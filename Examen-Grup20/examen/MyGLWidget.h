@@ -36,19 +36,18 @@ class MyGLWidget : public QGLWidget
 
   private:
     void createBuffers ();
-    void carregaShaders ();
+    void loadShaders ();
     void projectTransform ();
     void viewTransform ();
     void modelTransformTerra ();
     void modelTransformPatricio ();
     void modelTransformPatricio2 ();
-    void modelTransformMiniPat ();
-    void modelTransformVaca ();
-    void calculaCapsaPatricio ();
-    void calculaCapsaVaca ();
+    void modelTransformPatricio3 ();
+    void calculaCapsaModel ();
     void carregaLlum();
-    //struct del model
-    struct model{
+
+    //struct amb les dades necessaries del model
+    struct figura{
         float minx, miny, minz, maxx, maxy, maxz;
         glm::vec3 centreCapsa() { return glm::vec3((minx+maxx)/2.0,(miny+maxy)/2.0,(minz+maxz)/2.0); }
         glm::vec3 centreBase(){ return glm::vec3((minx+maxx)/2.0,miny,(minz+maxz)/2.0); }
@@ -59,19 +58,22 @@ class MyGLWidget : public QGLWidget
 
     // VAO i VBO names
     GLuint VAO_Patr, VBO_PatrPos, VBO_PatrNorm, VBO_PatrMatamb, VBO_PatrMatdiff, VBO_PatrMatspec, VBO_PatrMatshin;
-    GLuint VAO_cow, VBO_cowPos, VBO_cowNorm, VBO_cowMatamb, VBO_cowMatdiff, VBO_cowMatspec, VBO_cowMatshin;
     GLuint VAO_Terra, VBO_TerraPos, VBO_TerraNorm, VBO_TerraMatamb, VBO_TerraMatdiff, VBO_TerraMatspec, VBO_TerraMatshin;
     QGLShaderProgram *program;
 
-    GLuint transLoc, projLoc, viewLoc,posFocusLoc;
-    GLuint vertexLoc, normalLoc, matambLoc, matdiffLoc, matspecLoc, matshinLoc;
-    Model patr,cow;
+    GLuint transLoc, projLoc, viewLoc;
+    GLuint vertexLoc, normalLoc, matambLoc, matdiffLoc, matspecLoc, matshinLoc,colFocusLoc,franjaLoc;
+    Model patr;
     // paràmetres calculats a partir de la capsa contenidora del model
-    glm::vec3 posFocus;
-    double radiEsc,ra,FOV,FOVinicial,trasllada,distancia,Znear,Zfar;
-    model patricio,minipat,vaca;
+    glm::vec3 OBS,VRP,colFocus;
+    double distancia,radi,Znear,Zfar,ra,FOV,FOVinicial, moviment;
+    bool color;
+    int franja;
+
+
+    figura patricio,patricio2,patricio3;
     typedef  enum {NONE, ROTATE} InteractiveAction;
     InteractiveAction DoingInteractive;
     int xClick, yClick;
-    float angleY,anglerot;
+    float angleX, angleY;
 };

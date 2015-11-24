@@ -21,7 +21,7 @@ void MyGLWidget::initializeGL ()
 {
   // glew és necessari per cridar funcions de les darreres versions d'OpenGL
   glewExperimental = GL_TRUE;
-  glewInit(); 
+  glewInit();
   glGetError();  // Reinicia la variable d'error d'OpenGL
 
   glClearColor (0.5, 0.7, 1.0, 1.0);  // defineix color de fons (d'esborrat)
@@ -39,7 +39,7 @@ void MyGLWidget::paintGL ()
 
   /*-------PINTEM EL TERRA------------*/
 
-  // Activem el VAO per a pintar el terra 
+  // Activem el VAO per a pintar el terra
   glBindVertexArray (VAO_Terra);
 
   modelTransformTerra ();
@@ -66,7 +66,7 @@ void MyGLWidget::paintGL ()
 
   // Pintem l'escena
   glDrawArrays(GL_TRIANGLES, 0, patr.faces().size()*3);
-  
+
 
   /*----------PINTEM EL mini PATRICIO---------*/
 
@@ -113,7 +113,7 @@ void MyGLWidget::createBuffers ()
 
   // Calculem la capsa contenidora del model
   calculaCapsaPatricio();
-  
+
   // Creació del Vertex Array Object del Patricio
   glGenVertexArrays(1, &VAO_Patr);
   glBindVertexArray(VAO_Patr);
@@ -238,26 +238,26 @@ void MyGLWidget::createBuffers ()
   // Dades del terra
   // VBO amb la posició dels vèrtexs
   glm::vec3 posterra[12] = {
-	glm::vec3(-1.0, -1.0, 1.0),
-	glm::vec3(1.0, -1.0, 1.0),
-	glm::vec3(-1.0, -1.0, -1.0),
-	glm::vec3(-1.0, -1.0, -1.0),
-	glm::vec3(1.0, -1.0, 1.0),
-	glm::vec3(1.0, -1.0, -1.0),
-	glm::vec3(-1.0, -1.0, -1.0),
-	glm::vec3(1.0, -1.0, -1.0),
-	glm::vec3(-1.0, 1.0, -1.0),
-	glm::vec3(-1.0, 1.0, -1.0),
-	glm::vec3(1.0, -1.0, -1.0),
-	glm::vec3(1.0, 1.0, -1.0)
-  }; 
+    glm::vec3(-1.0, -1.0, 1.0),
+    glm::vec3(1.0, -1.0, 1.0),
+    glm::vec3(-1.0, -1.0, -1.0),
+    glm::vec3(-1.0, -1.0, -1.0),
+    glm::vec3(1.0, -1.0, 1.0),
+    glm::vec3(1.0, -1.0, -1.0),
+    glm::vec3(-1.0, -1.0, -1.0),
+    glm::vec3(1.0, -1.0, -1.0),
+    glm::vec3(-1.0, 1.0, -1.0),
+    glm::vec3(-1.0, 1.0, -1.0),
+    glm::vec3(1.0, -1.0, -1.0),
+    glm::vec3(1.0, 1.0, -1.0)
+  };
 
   // VBO amb la normal de cada vèrtex
   glm::vec3 norm1 (0,1,0);
   glm::vec3 norm2 (0,0,1);
   glm::vec3 normterra[12] = {
-	norm1, norm1, norm1, norm1, norm1, norm1, // la normal (0,1,0) per als primers dos triangles
-	norm2, norm2, norm2, norm2, norm2, norm2  // la normal (0,0,1) per als dos últims triangles
+    norm1, norm1, norm1, norm1, norm1, norm1, // la normal (0,1,0) per als primers dos triangles
+    norm2, norm2, norm2, norm2, norm2, norm2  // la normal (0,0,1) per als dos últims triangles
   };
 
   // Definim el material del terra
@@ -268,16 +268,16 @@ void MyGLWidget::createBuffers ()
 
   // Fem que aquest material afecti a tots els vèrtexs per igual
   glm::vec3 matambterra[12] = {
-	amb, amb, amb, amb, amb, amb, amb, amb, amb, amb, amb, amb
+    amb, amb, amb, amb, amb, amb, amb, amb, amb, amb, amb, amb
   };
   glm::vec3 matdiffterra[12] = {
-	diff, diff, diff, diff, diff, diff, diff, diff, diff, diff, diff, diff
+    diff, diff, diff, diff, diff, diff, diff, diff, diff, diff, diff, diff
   };
   glm::vec3 matspecterra[12] = {
-	spec, spec, spec, spec, spec, spec, spec, spec, spec, spec, spec, spec
+    spec, spec, spec, spec, spec, spec, spec, spec, spec, spec, spec, spec
   };
   float matshinterra[12] = {
-	shin, shin, shin, shin, shin, shin, shin, shin, shin, shin, shin, shin
+    shin, shin, shin, shin, shin, shin, shin, shin, shin, shin, shin, shin
   };
 
 // Creació del Vertex Array Object del terra
@@ -341,7 +341,7 @@ void MyGLWidget::carregaShaders ()
   // Creem els shaders per al fragment i vertex shader
   QGLShader fs(QGLShader::Fragment, this);
   QGLShader vs(QGLShader::Vertex, this);
-  // Carreguem el codi dels fitxers i els compilem 
+  // Carreguem el codi dels fitxers i els compilem
   fs.compileSourceFile("./shaders/fragshad.frag");
   vs.compileSourceFile("./shaders/vertshad.vert");
 
@@ -387,7 +387,7 @@ void MyGLWidget::modelTransformPatricio ()
   TG = glm::translate(TG,glm::vec3(trasllada,0,0));
   TG = glm::scale(TG, glm::vec3(patricio.escala));
   TG = glm::translate(TG, -patricio.centreCapsa());
-  
+
   glUniformMatrix4fv (transLoc, 1, GL_FALSE, &TG[0][0]);
 }
 
@@ -436,7 +436,7 @@ void MyGLWidget::projectTransform ()
 {
   //sempre mantenim la aspect ratio de la pantalla per evitar deformacions
   glm::mat4 Proj;  // Matriu de projecció
-  Proj = glm::perspective(FOV, ra,Znear,Zfar);
+  Proj = glm::perspective(FOV, ra,0.9,Zfar);
 
   glUniformMatrix4fv (projLoc, 1, GL_FALSE, &Proj[0][0]);
 }
@@ -478,7 +478,7 @@ void MyGLWidget::calculaCapsaPatricio ()
   patricio.escala = patricio.height/(patricio.maxy-patricio.miny);
   minipat.escala = minipat.height/(patricio.maxy-patricio.miny);
 
-  distancia = 2*patricio.radi()*patricio.escala;
+  distancia = glm::distance(glm::vec3(-1,1,-1),glm::vec3(0,0,0));
   Znear = distancia - patricio.radi()*patricio.escala;
   Zfar = distancia + patricio.radi()*patricio.escala;
 

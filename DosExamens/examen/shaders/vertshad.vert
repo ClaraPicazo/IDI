@@ -13,9 +13,9 @@ uniform mat4 view;
 uniform mat4 TG;
 
 // Valors per als components que necessitem dels focus de llum
-vec3 colFocus = vec3(0.0, 0.8, 0.8);
+vec3 colFocus = vec3(0.8, 0.8, 0.8);
 vec3 llumAmbient = vec3(0.2, 0.2, 0.2);
-uniform vec3 posFocus;  // en SCA
+vec3 posFocus = vec3(1, 1, 1);  // en SCA
 
 out vec3 fcolor;
 
@@ -56,11 +56,6 @@ vec3 Phong (vec3 NormSCO, vec3 L, vec4 vertSCO)
 
 void main()
 {	
-        gl_Position = proj * view * TG * vec4 (vertex, 1.0);
-        vec4 L = view*TG*vec4(vertex,1.0);
-        vec4 posF = vec4(posFocus,1.0);
-        L = posF - L;
-        mat3 NormalMatrix = inverse (transpose (mat3 (view * TG)));
-        vec3 N = NormalMatrix*normal;
-        fcolor = Phong(normalize(N),normalize(L.xyz),vec4(vertex,1.0)) ;
+    fcolor = matdiff;
+    gl_Position = proj * view * TG * vec4 (vertex, 1.0);
 }
