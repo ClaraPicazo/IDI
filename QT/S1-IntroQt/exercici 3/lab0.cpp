@@ -8,6 +8,8 @@
 #include <QLCDNumber>
 #include <QDial>
 
+
+
 int main( int argc, char ** argv)
 {
   // Creem tots els components
@@ -50,7 +52,8 @@ int main( int argc, char ** argv)
 
   //Establim signals i comportament
   app.connect(quitButton, SIGNAL(clicked()), w, SLOT(close()));
-  //app.connect(dial_hour,SIGNAL(valueChanged()),lcd_hour,SLOT (display(14)));
+  app.connect(dial_hour,SIGNAL(dialMoved(const int&)),lcd_hour,SLOT (display(const int&)));
+  app.connect(dial_minutes,SIGNAL(dialMoved(const int&)),lcd_minutes,SLOT (display(const int&)));
 
   w->show();
   return app.exec();

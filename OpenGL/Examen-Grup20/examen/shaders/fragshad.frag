@@ -7,7 +7,7 @@ uniform int franja;
 void main()
 {
         if (franja ==1){
-            if ( (gl_FragCoord.y/10)\2 == 0) FragColor = vec4 (0. ,0. ,0. ,1.); // no soporta moduls??
+            if ( mod(gl_FragCoord.y,20) > 10) FragColor = vec4 (0. ,0. ,0. ,1.); // no soporta moduls??
             else  FragColor = vec4 (1. ,1. ,1. ,1.);
         }
 
