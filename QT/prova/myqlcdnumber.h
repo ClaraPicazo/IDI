@@ -7,7 +7,7 @@ class MyQLCDNumber : public QLCDNumber
 {
     Q_OBJECT
 public:
-    explicit MyQLCDNumber(QWidget *parent = 0);
+    MyQLCDNumber(QWidget *parent = 0);
 
 signals:
 

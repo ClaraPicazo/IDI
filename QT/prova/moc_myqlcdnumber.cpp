@@ -31,13 +31,13 @@ static const uint qt_meta_data_MyQLCDNumber[] = {
 
  // slots: signature, parameters, type, tag, flags
       18,   14,   13,   13, 0x0a,
-      31,   13,   13,   13, 0x0a,
+      36,   13,   13,   13, 0x0a,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_MyQLCDNumber[] = {
-    "MyQLCDNumber\0\0num\0display(int)\0"
+    "MyQLCDNumber\0\0num\0displayColor(int)\0"
     "setToZero()\0"
 };
 
@@ -47,7 +47,7 @@ void MyQLCDNumber::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
         Q_ASSERT(staticMetaObject.cast(_o));
         MyQLCDNumber *_t = static_cast<MyQLCDNumber *>(_o);
         switch (_id) {
-        case 0: _t->display((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 0: _t->displayColor((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 1: _t->setToZero(); break;
         default: ;
         }

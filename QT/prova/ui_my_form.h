@@ -41,7 +41,7 @@ public:
     {
         if (my_form->objectName().isEmpty())
             my_form->setObjectName(QString::fromUtf8("my_form"));
-        my_form->resize(469, 233);
+        my_form->resize(307, 41);
         verticalLayout = new QVBoxLayout(my_form);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
@@ -74,7 +74,7 @@ public:
 
         horizontalLayout->addWidget(pushButton);
 
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
 
         horizontalLayout->addItem(horizontalSpacer);
 
@@ -92,9 +92,9 @@ public:
 
 
         retranslateUi(my_form);
-        QObject::connect(horizontalSlider, SIGNAL(valueChanged(int)), lcdNumber, SLOT(display(int)));
         QObject::connect(pushButton_2, SIGNAL(clicked()), my_form, SLOT(close()));
         QObject::connect(pushButton, SIGNAL(clicked()), lcdNumber, SLOT(setToZero()));
+        QObject::connect(horizontalSlider, SIGNAL(valueChanged(int)), lcdNumber, SLOT(displayColor(int)));
 
         QMetaObject::connectSlotsByName(my_form);
     } // setupUi

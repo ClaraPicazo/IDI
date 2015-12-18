@@ -8,21 +8,17 @@ MyQLCDNumber::MyQLCDNumber(QWidget *parent){
 
 void MyQLCDNumber::displayColor(int num) {
 
-    QPalette Pal(palette());
-
     if(num==0) {
-        Pal.setColor(QPalette::WindowText, Qt::green);
+        setStyleSheet("background-color: green");
     }else if(num%2==0) {
-        Pal.setColor(QPalette::WindowText, Qt::blue);
+        setStyleSheet("background-color: blue");
     }else{
-        Pal.setColor(QPalette::WindowText, Qt::red);
+        setStyleSheet("background-color: red");
     }
-
-    this->setPalette(Pal);
 
     QLCDNumber::display(num);
 }
 
 void MyQLCDNumber::setToZero() {
-    this->display(0);
+    this->displayColor(0);
 }
