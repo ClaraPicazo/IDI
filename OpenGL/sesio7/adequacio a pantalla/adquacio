@@ -1,0 +1,11 @@
+ utilitzar lookAT(OBS,VRP,UP);
+ 
+ calculs:
+ 
+  radi = glm::distance(glm::vec3(minx,miny,minz),glm::vec3(maxx,maxy,maxz))/2; //radi caixa contenidora
+  distancia = 2*radi*escala;//distancia centre patricio a camara
+  VRP = glm::vec3(0,0,0);
+  OBS = glm::vec3(0,0,distancia);
+  Znear = distancia - radi*escala;
+  Zfar = distancia + radi*escala;
+  FOVinicial = FOV = 2*asin(radi*escala/distancia);
